@@ -1,26 +1,267 @@
-@import "tailwindcss";
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* The "Digital Chalk" Palette */
+  --paper: #F4EFE3;      /* Base Background */
+  --ink: #2D2D2D;        /* High Contrast Charcoal */
+  --sage: #8F9779;       /* Primary Accent */
+  --sandstone: #E9DFC7;  /* Secondary Container */
+  --grid-dot: #D1CDC2;   /* Subdued Grid Color */
+  
+  /* Typography */
+  --font-main: 'Inter', 'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-main);
+  /* The "Chalk" texture: a subtle grain overlay */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-blend-mode: multiply;
+  opacity: 0.98;
+}
+
+/* The Header Module */
+.dc-header {
+  width: 100%;
+  border-bottom: 1px solid var(--ink);
+  padding: 2rem 3rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: var(--paper);
+}
+
+/* Technical Callout (The "Labeling Culture") */
+.dc-header::before {
+  content: "TERMINAL // SYSTEM_DEBATE_01";
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--sage);
+}
+
+.dc-header h1 {
+  margin: 0;
+  font-size: 3rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* Secondary meta-data for that "Archival" feel */
+.dc-header-meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  border-top: 1px dashed var(--grid-dot);
+  padding-top: 0.5rem;
+}
+
+/* The Main Container (The Workspace) */
+.dc-workspace {
+  padding: 40px; /* The "Margins on all 4 sides" */
+  min-height: calc(100vh - 200px);
+  /* The Dotted Grid Background */
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 0);
+  background-size: 24px 24px;
+  display: flex;
+  justify-content: center;
+}
+
+/* The Chat Box (Semi-Full-Width) */
+.dc-chat-container {
+  width: 85%; /* Semi-full width */
+  max-width: 1200px;
+  height: 600px;
+  
+  /* The "Tracing Paper" Look */
+  /* Using 95% opacity to keep it "dry" and legible */
+  background-color: rgba(244, 239, 227, 0.95); 
+  
+  /* Structural definition instead of shadows */
+  border: 1px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Technical Header for the Chat Box */
+.dc-chat-header {
+  padding: 10px 15px;
+  background-color: var(--sandstone);
+  border-bottom: 1px solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dc-chat-header .label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* The Message Area */
+.dc-chat-messages {
+  position: relative;
+  flex: 1; /* This forces it to take all available space between header and input */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Keep the trays pinned to the top */
+  padding-top: 70px; /* Space so messages don't start under the trays */
+}
+
+.dc-message-stream {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
+  /* The "Boxy" Shadow */
+  /* Format: x-offset y-offset blur spread color */
+  box-shadow: 
+    4px 4px 0px 0px var(--sandstone), /* The inner "step" */
+    8px 8px 0px 0px rgba(45, 45, 45, 0.1); /* The outer "drop" */
+    
+  /* Structural Border */
+  border: 1px solid var(--ink);
+  background-color: var(--paper);
+  
+  /* Keep it inside the container margins */
+  margin: 10px 20px 20px 20px; 
+}
+
+/* Let's style the technical messages to match the boxy vibe */
+.dc-msg-technical {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 12px;
+  border: 1px solid var(--grid-dot);
+  background-color: rgba(233, 223, 199, 0.3); /* Very light sandstone tint */
+  position: relative;
+  max-width: 80%;
+  align-self: flex-start;
+}
+
+/* A small 'accent' tab on the message to make it look indexed */
+.dc-msg-technical::before {
+  content: "DATA_NODE";
+  position: absolute;
+  top: -8px;
+  left: 10px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.5rem;
+  padding: 1px 4px;
+}
+/* The Selector Base */
+.dc-selector-tray {
+  position: absolute;
+  top: 10px;
+  width: 180px;
+  height: 50px;
+  background-color: var(--sandstone);
+  border: 1px solid var(--ink);
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: none; /* Hide scrollbar for Chrome/Safari below */
+  cursor: ew-resize;
+  z-index: 10;
+}
+
+.dc-selector-tray::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for a cleaner 'analog' look */
+}
+
+.dc-left-tray { left: 15px; }
+.dc-right-tray { right: 15px; }
+
+/* The "Slides" (Icons/Images) */
+.dc-slide {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  height: 100%;
+  border-right: 1px dashed var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  color: var(--ink);
+  background-color: var(--paper);
+  transition: background-color 0.1s steps(2); /* Instant mechanical swap */
+}
+
+.dc-slide:hover {
+  background-color: var(--sage);
+  color: var(--paper);
+}
+
+.dc-slide:last-child {
+  border-right: none;
+}
+
+/* Technical Labeling for the Trays */
+.dc-tray-label {
+  position: absolute;
+  top: -12px;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: bold;
+  color: var(--sage);
+  text-transform: uppercase;
+}
+/* The Input Area */
+.dc-chat-input-zone {
+  border-top: 1px solid var(--ink);
+  padding: 15px;
+  display: flex;
+  gap: 10px;
+  background-color: var(--paper);
+}
+
+.dc-chat-input {
+  flex-grow: 1;
+  background: transparent;
+  border: 1px solid var(--grid-dot);
+  padding: 10px;
+  font-family: var(--font-main);
+  outline: none;
+}
+
+.dc-chat-input:focus {
+  border-color: var(--sage);
+}
+
+/* The "Step-Based" Button */
+.dc-send-btn {
+  background-color: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 0 25px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  cursor: crosshair;
+  transition: none; /* No fluid animation */
+}
+
+.dc-send-btn:hover {
+  background-color: var(--sage);
+  color: var(--ink);
 }
