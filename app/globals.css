@@ -221,44 +221,65 @@ body {
   padding: 1px 4px;
 }
 /* The Selector Base */
+/* The Selector Base - Adjusted for exactly 2 slots */
 .dc-selector-tray {
   position: absolute;
   top: 10px;
-  width: 180px;
+  width: 160px; /* Slightly narrower for 2 clean 80px slots */
   height: 50px;
   background-color: var(--sandstone);
   border: 1px solid var(--ink);
-  display: flex;
-  align-items: center;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  scrollbar-width: none; /* Hide scrollbar for Chrome/Safari below */
-  cursor: ew-resize;
+  display: flex; /* Flex handles the 50/50 split */
+  overflow: hidden; /* No more scrolling needed for 2 items */
   z-index: 10;
-}
-
-.dc-selector-tray::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for a cleaner 'analog' look */
+  box-shadow: 2px 2px 0px 0px rgba(45, 45, 45, 0.1);
 }
 
 .dc-left-tray { left: 15px; }
 .dc-right-tray { right: 15px; }
 
-/* The "Slides" (Icons/Images) */
+/* The "Slides" (Now exactly 50% width) */
 .dc-slide {
-  display: inline-flex;
+  flex: 1; /* Each takes exactly half the container */
+  flex-direction: column;
+  gap: 4px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 60px;
   height: 100%;
-  border-right: 1px dashed var(--ink);
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.65rem; /* Slightly larger text for better legibility */
   text-transform: uppercase;
   color: var(--ink);
   background-color: var(--paper);
-  transition: background-color 0.1s steps(2); /* Instant mechanical swap */
+  cursor: pointer;
+  transition: background-color 0.05s steps(2);
+}
+
+.dc-slide-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  
+  /* This filter makes color icons look like "Ink" on the paper */
+  filter: grayscale(1) contrast(1.2); 
+  opacity: 0.8;
+}
+
+.dc-slide-text {
+  font-size: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+/* Reverse the colors when hovering */
+.dc-slide:hover .dc-slide-img {
+  filter: invert(1) brightness(2); /* Makes the icon white on the sage background */
+  opacity: 1;
+}
+
+/* Vertical divider between the two slides */
+.dc-slide:first-child {
+  border-right: 1px solid var(--ink);
 }
 
 .dc-slide:hover {
@@ -266,19 +287,17 @@ body {
   color: var(--paper);
 }
 
-.dc-slide:last-child {
-  border-right: none;
-}
-
-/* Technical Labeling for the Trays */
+/* Technical Labeling */
 .dc-tray-label {
   position: absolute;
-  top: -12px;
+  top: -14px; /* Lifted slightly more */
+  left: 0;
   font-family: var(--font-mono);
   font-size: 0.55rem;
   font-weight: bold;
   color: var(--sage);
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 /* The Input Area */
 .dc-chat-input-zone {
