@@ -8,10 +8,17 @@ const ChatInput = () => {
         setText(e.target.value)
     }
 
-    const handleTransmit = ()=>{
+    const handleTransmit = async ()=>{
         let val = text.trim()
         if(val == "")return;
         console.log('TRANSMITTING DATA TO SERVER : ',val)
+        const params =new URLSearchParams({
+            sender : 'user'
+        })
+
+        const res = await fetch(`/api/chat?${params}`)
+        const ans = await res.json()
+        console.log(ans)
         setText('')
     }
 
