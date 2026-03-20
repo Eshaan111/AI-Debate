@@ -12,8 +12,10 @@ const ChatInput = () => {
         let val = text.trim()
         if(val == "")return;
         console.log('TRANSMITTING DATA TO SERVER : ',val)
+        
         const params =new URLSearchParams({
-            sender : 'user'
+            sender : 'user',
+            data : val
         })
 
         const res = await fetch(`/api/chat?${params}`)

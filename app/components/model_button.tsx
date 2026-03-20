@@ -1,0 +1,35 @@
+'use client'
+import React from 'react'
+import { useRouter,usePathname,useSearchParams } from 'next/navigation'
+
+const ModelButton = ({src,name,inFavour}) => {
+    const router =  useRouter();
+    const curr_path = usePathname();
+    const curr_params = useSearchParams();
+    const curr_queries = curr_params.keys;
+    let params_new = {};
+    const changeUrlParams = ()=>{
+        for (const [key, value] of curr_params.entries()) {
+            params_new[key] = value ;       
+            // console.log(`${key}, ${value}`);
+        }
+        if(inFavour){
+            params_new['modelInFavour'] = name
+        }
+        else{
+            params_new['modelAgainst'] = name
+        };
+
+        router.push(`${curr_path}?modelInFavour=${params_new['modelInFavour']}&modelAgainst=${params_new['modelAgainst']}`)
+        
+    }
+
+  return (
+    <button className="dc-slide" onClick={changeUrlParams}>
+        <img src={src} alt="text" className="dc-slide-img" />
+        <span className="dc-slide-text">{name}</span>
+    </button>
+  )
+}
+
+export default ModelButton

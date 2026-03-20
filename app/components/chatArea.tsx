@@ -1,7 +1,7 @@
 import React from 'react'
 import ChatInput from './chatinput'
 import MessageStream from './messageStream'
-
+import ModelButton from './model_button'
 const ChatArea = () => {
   return (
     <div className="dc-workspace">
@@ -15,31 +15,18 @@ const ChatArea = () => {
             <div className="dc-chat-messages">
                 <div className="dc-selector-tray dc-left-tray">
                     <span className="dc-tray-label">AGENT_VISUAL_REF</span>
-                    <div className="dc-slide">
-                        <img src='GEMINI.png' alt="text" className="dc-slide-img" />
-                        <span className="dc-slide-text">GEMINI</span>
-                    </div>
-                    <div className="dc-slide">
-                        <img src='GROK.png' alt="text" className="dc-slide-img" />
-                        <span className="dc-slide-text">GROK</span>
-                    </div>
-                    
+                    <ModelButton src={'GEMINI.png'} name='GEMINI' inFavour = {true}/>
+                    <ModelButton src={'GROQ.png'} name='GROQ' inFavour = {true}/>
                 </div>
 
                 <div className="dc-selector-tray dc-right-tray">
                     <span className="dc-tray-label">EMOTE_MATRIX</span>
-                    <div className="dc-slide">
-                        <img src='GEMINI.png' alt="text" className="dc-slide-img" />
-                        <span className="dc-slide-text">GEMINI</span>
-                    </div>
-                    <div className="dc-slide">
-                        <img src='GROK.png' alt="text" className="dc-slide-img" />
-                        <span className="dc-slide-text">GROK</span>
-                    </div>
-                    
+                    <ModelButton src={'GEMINI.png'} name='GEMINI' inFavour = {false}/>
+                    <ModelButton src={'GROQ.png'} name='GROQ' inFavour = {false}/>
                 </div>
-                
+        
                 <MessageStream/>
+        
             </div>
 
             <ChatInput/>
