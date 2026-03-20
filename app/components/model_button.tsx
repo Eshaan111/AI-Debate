@@ -6,7 +6,6 @@ const ModelButton = ({src,name,inFavour}) => {
     const router =  useRouter();
     const curr_path = usePathname();
     const curr_params = useSearchParams();
-    const curr_queries = curr_params.keys;
     let params_new = {};
     const changeUrlParams = ()=>{
         for (const [key, value] of curr_params.entries()) {

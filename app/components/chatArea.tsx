@@ -2,14 +2,23 @@ import React from 'react'
 import ChatInput from './chatinput'
 import MessageStream from './messageStream'
 import ModelButton from './model_button'
+import ModelLabel from './label'
+
+
 const ChatArea = () => {
-  return (
+    
+
+  
+  
+    return (
     <div className="dc-workspace">
         <section className="dc-chat-container">
             
             <div className="dc-chat-header">
-            <span className="label">TRANSCRIPTION_BUFFER // 01</span>
-            <span className="label">SECURE_CHANNEL</span>
+            {/* <span className="label">MODEL IN FAVOUR {modelInFavour}</span>
+            <span className="label">MODEL AGAINST {modelAgainst}</span> */}
+            <ModelLabel inFavour={true}/>
+            <ModelLabel inFavour={false}/>
             </div>
 
             <div className="dc-chat-messages">

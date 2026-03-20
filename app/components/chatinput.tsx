@@ -1,16 +1,37 @@
 'use client'
-import React, { useState } from 'react'
-
+import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation';
 const ChatInput = () => {
     const [text,setText] = useState('');
-    
+    const [modelInFavour,setModelInFavour] = useState('Un-Signed')
+    const [modelAgainst,setModelAgainst] = useState('Un-Signed')
+        
+    const curr_params = useSearchParams();
+    useEffect(()=>{
+        for (const [key, value] of curr_params.entries()) {      
+            if(key=='modelInFavour' && value!=`undefined`){setModelInFavour(value)}
+            else if(key=='modelAgainst' && value!=`undefined`){setModelAgainst(value)}
+        }
+    },[curr_params])
+
+
     const handleChange = (e)=>{
         setText(e.target.value)
     }
 
+    const checkModelPreference = ()=>{
+        return (modelInFavour!='Un-Signed' && modelAgainst != 'Un-Signed')
+    }
+    
     const handleTransmit = async ()=>{
+
+        if(!checkModelPreference()) {
+            console.log("MODEL PREFERENCE NOT SELECTED")
+            return
+        };
+
         let val = text.trim()
-        if(val == "")return;
+        if(val == ""){console.log('emppty input');return};
         console.log('TRANSMITTING DATA TO SERVER : ',val)
         
         const params =new URLSearchParams({
