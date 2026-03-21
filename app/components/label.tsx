@@ -3,7 +3,7 @@ import React from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
 
-const ModelLabel = ({inFavour}) => {
+const ModelPreferenceLabel = ({inFavour} : any) => {
 
     const [modelInFavour,setModelInFavour] = useState('Un-Signed')
     const [modelAgainst,setModelAgainst] = useState('Un-Signed')
@@ -29,4 +29,4 @@ const ModelLabel = ({inFavour}) => {
 
 }
 
-export default ModelLabel
+export default ModelPreferenceLabel

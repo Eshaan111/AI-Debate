@@ -200,7 +200,7 @@ body {
 
 /* A small 'accent' tab on the message to make it look indexed */
 .dc-msg-technical::before {
-  content: "DATA_NODE";
+  content: "IN FAVOUR";
   position: absolute;
   top: -8px;
   left: 10px;
@@ -211,7 +211,7 @@ body {
 }
 
 .dc-msg-technical-right::before {
-  content: "DATA_NODE";
+  content: "AGAINST";
   position: absolute;
   top: -8px;
   left: 10px;

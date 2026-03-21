@@ -2,23 +2,27 @@ import React from 'react'
 import ChatInput from './chatinput'
 import MessageStream from './messageStream'
 import ModelButton from './model_button'
-import ModelLabel from './label'
+import ModelPreferenceLabel from './label'
 
 
 const ChatArea = () => {
+    let temp = [{id : 0, sender:'modelInFavour', text : 'HELLO' },
+                    {id : 1, sender:'modelAgainst', text : 'HELLO TO YOU TOO' },
+                    {id : 2, sender:'modelAgainst', text : 'HELLO TO YOU TOO' },
+                    {id : 3, sender:'modelAgainst', text : 'HELLO TO YOU TOO' }
+        ]
     
 
-  
-  
-    return (
+
+      return (
     <div className="dc-workspace">
         <section className="dc-chat-container">
             
             <div className="dc-chat-header">
             {/* <span className="label">MODEL IN FAVOUR {modelInFavour}</span>
             <span className="label">MODEL AGAINST {modelAgainst}</span> */}
-            <ModelLabel inFavour={true}/>
-            <ModelLabel inFavour={false}/>
+            <ModelPreferenceLabel inFavour={true}/>
+            <ModelPreferenceLabel inFavour={false}/>
             </div>
 
             <div className="dc-chat-messages">
@@ -34,11 +38,11 @@ const ChatArea = () => {
                     <ModelButton src={'GROQ.png'} name='GROQ' inFavour = {false}/>
                 </div>
         
-                <MessageStream/>
+                <MessageStream />
         
             </div>
 
-            <ChatInput/>
+            <ChatInput />
 
         </section>
     </div>

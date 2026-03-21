@@ -1,20 +1,35 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { UseSelector,UseDispatch, useSelector } from 'react-redux'
+import {push,clear} from '../../reduxFeatures/streamSlice' 
+import { RootState } from '../store'
+import { useMemo } from 'react'
 
 const MessageStream = () => {
-    let temp = [{id : 0, sender:'left', text : 'HELLO' },
-                {id : 1, sender:'right', text : 'HELLO TO YOU TOO' },
-                {id : 2, sender:'right', text : 'HELLO TO YOU TOO' },
-                {id : 3, sender:'right', text : 'HELLO TO YOU TOO' }
-    ]
 
+    const mesgStream = useSelector((state: RootState) => state.stream.messages) // AOB
+ 
+    let temp = [{id : 0, sender:'modelInFavour', text : 'HELLO' }];
     const [stream,setStream] = useState(temp);
+  
+    const parsedStream = useMemo(()=>{
+        let convos = []
+        mesgStream.forEach(set_convo => {
+            convos.push(set_convo['favReply'])
+            convos.push(set_convo['againstReply'])
+        });
+        console.log(convos)
+        return convos;
+
+    },[mesgStream])
+
+
     let classToAdd;
     let sender;
 
-    const checkClass = (mesg)=>{
+    const checkClass = (mesg: any)=>{
         sender = mesg.sender;
-        if(sender == 'left'){
+        if(sender == 'modelInFavour'){
             classToAdd = "dc-msg-technical"
         }
         else{
@@ -25,11 +40,19 @@ const MessageStream = () => {
 
     return (
         <div className="dc-message-stream">
-             {stream.map((mesg)=>(
-                <div key = {mesg.id} className={checkClass(mesg)} >
+
+            {parsedStream.map((mesg)=>{
+                return (
+                    <div key = {mesg.id} className={checkClass(mesg)} >
                     {mesg.text} 
-                </div>
-            ))}
+                    </div>
+                )
+                
+            })}
+        
+
+                
+        
         </div>
     )
 }

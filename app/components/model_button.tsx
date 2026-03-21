@@ -2,11 +2,11 @@
 import React from 'react'
 import { useRouter,usePathname,useSearchParams } from 'next/navigation'
 
-const ModelButton = ({src,name,inFavour}) => {
+const ModelButton = ({src,name,inFavour} : any) => {
     const router =  useRouter();
     const curr_path = usePathname();
     const curr_params = useSearchParams();
-    let params_new = {};
+    let params_new : any = {};
     const changeUrlParams = ()=>{
         for (const [key, value] of curr_params.entries()) {
             params_new[key] = value ;       
@@ -19,7 +19,7 @@ const ModelButton = ({src,name,inFavour}) => {
             params_new['modelAgainst'] = name
         };
 
-        router.push(`${curr_path}?modelInFavour=${params_new['modelInFavour']}&modelAgainst=${params_new['modelAgainst']}`)
+        router.push(`${curr_path}?modelInFavour=${params_new['modelInFavour']}&modelAgainst=${params_new['modelAgainst']}`, {scroll : false})
         
     }
 
