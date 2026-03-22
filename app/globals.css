@@ -299,6 +299,99 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+/* Updated Widget Bar with Centering */
+.dc-widget-bar {
+  background-color: var(--ink);
+  /* The "Friction" texture: subtle vertical vents */
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.2) 2px,
+    rgba(0, 0, 0, 0.2) 3px
+  );
+  padding: 8px 16px;
+  
+  /* CENTERING LOGIC */
+  margin: 20px auto; /* 20px top/bottom, auto left/right centers it */
+  width: fit-content; /* Critical: keeps the bar from stretching */
+  min-width: 320px; 
+  
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid var(--ink);
+  position: relative;
+  
+  /* The "Stamped" Offset Shadow */
+  box-shadow: 4px 4px 0px 0px var(--sandstone);
+  
+  /* Ensure it sits above the grid texture */
+  z-index: 5;
+}
+
+/* Optional: Adding 'handle' graphics to the sides to make it look "draggable" or "slotted" */
+.dc-widget-bar::before,
+.dc-widget-bar::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+  background: var(--sage);
+  opacity: 0.4;
+}
+
+.dc-widget-bar::before { left: 4px; }
+.dc-widget-bar::after { right: 4px; }
+
+/* The Label */
+.dc-widget-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--sage);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding-right: 12px;
+  border-right: 1px solid rgba(143, 151, 121, 0.3);
+}
+
+/* The Button Group */
+.dc-widget-controls {
+  display: flex;
+  gap: 8px;
+}
+
+/* Mechanical Buttons */
+.dc-widget-btn {
+  background-color: var(--sandstone);
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  padding: 6px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 3px 0px 0px #BCB4A2;
+  position: relative;
+  top: 0;
+  transition: none;
+}
+
+.dc-widget-btn:active {
+  top: 2px;
+  box-shadow: 0 1px 0px 0px #BCB4A2;
+}
+
+.dc-widget-btn:hover {
+  background-color: var(--paper);
+  outline: 1px solid var(--sage);
+}
+
 /* The Input Area */
 .dc-chat-input-zone {
   border-top: 1px solid var(--ink);
