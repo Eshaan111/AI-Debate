@@ -2,6 +2,12 @@
 import React from 'react'
 
 const FirstGoerBar = () => {
+
+    const handleArgument = (firstGoerModel) => {
+        return null;
+    }
+
+
     return (
         <div className="dc-widget-bar">
             <div className="dc-widget-label">ADJUDICATION // TOOLS</div>

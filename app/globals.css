@@ -452,22 +452,27 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 15px;
+  padding: 8px 16px;
   background-color: var(--sandstone);
   border: 1px solid var(--ink);
+  
+  /* CENTERING LOGIC */
+  margin: 20px auto; 
   width: fit-content;
-  margin-top: auto; /* Pushes it to the bottom of the flex column */
-  margin-bottom: 10px;
-  box-shadow: 2px 2px 0px 0px var(--grid-dot);
+  
+  /* Aesthetic: Stamped depth */
+  box-shadow: 3px 3px 0px 0px var(--grid-dot);
+  position: relative;
+  z-index: 10;
 }
 
-/* The Blinking LED */
+/* The Blinking LED (Hard snap blink) */
 .dc-loading-dot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   background-color: var(--sage);
   border: 1px solid var(--ink);
-  animation: dc-blink 0.6s steps(2) infinite;
+  animation: dc-blink 0.8s steps(2) infinite;
 }
 
 /* The Text */
@@ -477,16 +482,19 @@ body {
   font-weight: 800;
   color: var(--ink);
   letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-/* The Animated Progress Strip */
+/* The Progress Strip */
 .dc-loading-bar {
-  width: 60px;
-  height: 10px;
+  width: 80px;
+  height: 12px;
   background-color: var(--paper);
   border: 1px solid var(--ink);
   position: relative;
   overflow: hidden;
+  /* Inset look */
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 .dc-loading-bar::after {
@@ -496,26 +504,26 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  /* A 'slashed' texture like a caution tape */
+  /* Industrial 'Caution' Stripes */
   background: repeating-linear-gradient(
     45deg,
     var(--sage),
-    var(--sage) 5px,
-    transparent 5px,
-    transparent 10px
+    var(--sage) 6px,
+    transparent 6px,
+    transparent 12px
   );
-  animation: dc-slide-progress 1.5s linear infinite;
+  animation: dc-slide-progress 2s linear infinite;
 }
 
-/* ANIMATIONS */
+/* Hard Snap Animation */
 @keyframes dc-blink {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
+  0% { opacity: 1; filter: brightness(1.2); }
+  100% { opacity: 0.4; filter: brightness(0.8); }
 }
 
 @keyframes dc-slide-progress {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(100%); }
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
 }
 
 /* The Input Area */

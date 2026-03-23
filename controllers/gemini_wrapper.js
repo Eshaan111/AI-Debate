@@ -11,7 +11,7 @@ export async function askGemini(thread) {
     model: "gemini-3-flash-preview",
     contents: thread,
   });
-  console.log("('--------GEMINI RESPONSE : ",response.text);
+  // console.log("('--------GEMINI RESPONSE : ",response.text);
   return response.text
 }
 

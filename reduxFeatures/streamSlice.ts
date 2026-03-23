@@ -2,19 +2,40 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface MessageStreamState {
-  messages: object[]
+  messages: object[],
+  topic: string
+
+}
+const initialState: MessageStreamState = {
+  messages: [],
+  topic: ''
 }
 
-const initialState : MessageStreamState = {
-  messages: [],
-}
+// FORMAT OF MESSAGES : [ ARRAY OF OBJECTS , each object is a convo set, ie reply and question set 
+//   {
+//     favReply : { id: `${key}FAV`, sender: 'gemini' or 'groq', text: 'message' },
+//     againstReply : {id: `${key}AGNST`, sender: 'gemini' or 'groq', text: 'message'}
+//   },
+//   { 
+//     favReply : { id: `${key}FAV`, sender: 'gemini' or 'groq', text: 'message' },
+//  
+//   },
+// {
+//   againstReply : {id: `${key}AGNST`, sender: 'gemini' or 'groq', text: 'message'}
+// }
+// 
+// ]
 
 export const streamSlice = createSlice({
   name: 'MessageStream',
   initialState,
   reducers: {
-    push : (state,action: PayloadAction<object> ) =>{
-        state.messages.push(action.payload)
+    pushMesg: (state, action: PayloadAction<object>) => {
+      state.messages.push(action.payload)
+    },
+
+    setTopic: (state, action: PayloadAction<string>) => {
+      state.topic = action.payload;
     },
 
     clear: (state) => {
@@ -25,6 +46,6 @@ export const streamSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { push, clear } = streamSlice.actions
+export const { pushMesg, setTopic, clear } = streamSlice.actions
 
 export default streamSlice.reducer
