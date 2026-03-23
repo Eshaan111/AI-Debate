@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { push, clear } from '../../reduxFeatures/streamSlice'
 import { RootState } from '../store'
 import { useSearchParams } from 'next/navigation';
-
+import { useLoadingContext } from '@/context/isLoading'
 
 const ChatInput = () => {
 
@@ -16,6 +16,10 @@ const ChatInput = () => {
 
     const curr_params = useSearchParams();
 
+    //==========LOADING CONTEXT===============
+    const {isLoadingValue,setLoading} = useLoadingContext()
+    console.log('LOAD RENDER STATUS : ' , isLoadingValue)
+    // ============= CHANGING MODEL PREFERENCE ==================
     useEffect(() => {
         for (const [key, value] of curr_params.entries()) {
             if (key == 'modelInFavour' && value != `undefined`) { setModelInFavour(value) }
@@ -65,10 +69,14 @@ const ChatInput = () => {
             modelInFavour: modelInFavour,
             modelAgainst: modelAgainst
         })
-
+        setLoading(true)
+        // console.log('LOADING VALUE : ', isLoadingValue)
         const res = await fetch(`/api/chat?${params}`)
         const ans = await res.json()
+        setLoading(false)
+        // console.log('LOADING VALUE : ', isLoadingValue)
         handleStreamAddition(ans)
+
 
     }
 

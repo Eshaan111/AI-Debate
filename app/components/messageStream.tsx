@@ -5,26 +5,30 @@ import { push, clear } from '../../reduxFeatures/streamSlice'
 import { RootState } from '../store'
 import { useMemo } from 'react'
 import FirstGoerBar from './firstGoerBar'
-
+import MesgPlaceholderStyle from './placeholderStream'
+import LoadingBar from './loadingBar'
+import { useLoadingContext } from '@/context/isLoading'
 const MessageStream = () => {
-
+    const {isLoadingValue,setLoading} = useLoadingContext()
     const mesgStream = useSelector((state: RootState) => state.stream.messages) // AOB
 
-    const [mesg_count,mesgCoutnState] = useState(0)
+    const [mesg_count, mesgCoutnState] = useState(0)
 
     const parsedStream = useMemo(() => {
         let convos = []
         mesgStream.forEach(set_convo => {
-            convos.push(set_convo['favReply'])
-            convos.push(set_convo['againstReply'])
-            mesgCoutnState(mesg_count+2)
+            if (Object.keys(set_convo).length > 1) {
+                convos.push(set_convo['favReply'])
+                convos.push(set_convo['againstReply'])
+                mesgCoutnState(mesg_count + 2)
+            }
+
         });
         console.log(convos)
-        console.log('mesg count = ',mesg_count)
+        console.log('mesg count = ', mesg_count)
         return convos;
 
     }, [mesgStream])
-
 
     let classToAdd;
     let sender;
@@ -40,8 +44,11 @@ const MessageStream = () => {
         return classToAdd;
     }
 
+    //====================RETURNING ELEMENT ================
     return (
         <div className="dc-message-stream">
+            {(mesg_count == 0 && !isLoadingValue)?<MesgPlaceholderStyle/>:null}
+            {(isLoadingValue)?<LoadingBar/>:null}
 
             {parsedStream.map((mesg) => {
                 return (
@@ -56,7 +63,7 @@ const MessageStream = () => {
             </div>
             
         </div>
-            )
+    )
 }
 
-            export default MessageStream
+export default MessageStream
