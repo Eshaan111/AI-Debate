@@ -19,6 +19,7 @@ const MessageStream = () => {
     const [pitch_count, setPitchCount] = useState(0);
     const pitchStream = useSelector((state: RootState) => state.stream.firstPitch)
     const mesgStream = useSelector((state: RootState) => state.stream.messages)
+    const topic = useSelector((state:RootState)=> state.stream.topic)
 
     const { isLoadingValue, setLoading } = useLoadingContext()
 
@@ -40,17 +41,24 @@ const MessageStream = () => {
     }, [mesgStream])
 
     const postreq = async () => {
+        if(Object.keys(mesgStream).length == 0){
+            return null
+        }
+        let bodyObj = {
+            "topic" : topic   ,
+            "mesgStream" : mesgStream
+        }
         const res = await fetch(`./api/argument`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(mesgStream)
+            body: JSON.stringify(bodyObj)
         })
-        console.log('DDDDDDDDDDDDDDDDDDDDD', JSON.stringify(mesgStream))
-        console.log('DDDDDDDDDDDDDDDDDDDDDSSDWAD', mesgStream)
+        // console.log('DDDDDDDDDDDDDDDDDDDDD', JSON.stringify(mesgStream))
+        // console.log('DDDDDDDDDDDDDDDDDDDDDSSDWAD', mesgStream)
     }
-    
+
     useEffect(() => {
         postreq()
     }, [mesgStream])
