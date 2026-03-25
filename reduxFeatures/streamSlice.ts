@@ -38,6 +38,11 @@ export const streamSlice = createSlice({
           state.firstPitch[key] = Pitchobject[key] 
       });
     },
+
+    addMesg : (state, action : PayloadAction<object>)=>{
+      const id = (Object.keys(state.messages)).length
+      state.messages[id] = action.payload
+    },
     // pushMesg: (state, action: PayloadAction<object>) => {
     //   state.messages.push(action.payload)
     // },
@@ -50,15 +55,18 @@ export const streamSlice = createSlice({
       state.topic = action.payload;
     },
 
-    clear: (state) => {
+    clearMessage: (state) => {
       state.messages = {}
-    }
+    },
 
+    clearPitch : (state) => {
+      state.firstPitch = {}
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
 // export const { pushMesg, setTopic, clear, popindex, pushPitch } = streamSlice.actions
-export const {setTopic, clear, pushPitch } = streamSlice.actions
+export const {setTopic, pushPitch, addMesg, clearPitch, clearMessage } = streamSlice.actions
 
 export default streamSlice.reducer

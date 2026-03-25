@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {setTopic, clear, pushPitch } from '../../reduxFeatures/streamSlice'
+import {setTopic, pushPitch, addMesg, clearPitch, clearMessage } from '@/reduxFeatures/streamSlice'
 import { RootState } from '../store'
 import { useSearchParams } from 'next/navigation';
 import { useLoadingContext } from '@/context/isLoading'
@@ -41,21 +41,10 @@ const ChatInput = () => {
     const topic_redux = useSelector((state: RootState) => state.stream.topic)
     const dispatch = useDispatch()
 
-    // const handleStreamAddition = async (obj: any) => {
-    //     console.log(obj)
-    //     let key = mesgStream.length
-    //     let fav = { id: `${key}FAV`, sender: 'modelInFavour', text: obj['mesg-fav'] }
-    //     let against = { id: `${key}AGNST`, sender: 'modelAgainst', text: obj['mesg-against'] }
-    //     let fav_aga_set_obj = { favReply: fav, againstReply: against }
-    //     console.log(fav_aga_set_obj)
-    //     dispatch(pushMesg(fav_aga_set_obj))
-
-    // }
-
     const handlePitchAddition = async (obj: any) => {
         console.log(obj)
-        let fav = { id: `PITCH-FAV`, sender: `modelInFavour`, text: obj['mesg-fav'] }
-        let against = { id: `PITCH-AGNST`, sender: `modelAgainst`, text: obj['mesg-against'] }
+        let fav = { id: `PITCH-FAV`, sender: `modelInFavour`, model : modelInFavour, text: obj['mesg-fav'] }
+        let against = { id: `PITCH-AGNST`, sender: `modelAgainst`, model : modelAgainst, text: obj['mesg-against'] }
         let fav_aga_set_obj = { favPitch: fav, againstPitch: against }
         dispatch(pushPitch(fav_aga_set_obj))
 
@@ -72,7 +61,8 @@ const ChatInput = () => {
 
     useEffect(() => {
         console.log("Updated topic in Redux:", topic_redux);
-        dispatch(clear())
+        dispatch(clearMessage())
+        dispatch(clearPitch())
     }, [topic_redux])
 
 

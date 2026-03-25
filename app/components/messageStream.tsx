@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react'
 
 //REDUX IMPORTS
-import { UseSelector, UseDispatch, useSelector } from 'react-redux'
-import { pushMesg, setTopic, clear, popindex } from '../../reduxFeatures/streamSlice'
+import { UseSelector, UseDispatch, useSelector, useDispatch } from 'react-redux'
+import {setTopic, pushPitch, addMesg, clearPitch, clearMessage } from '../../reduxFeatures/streamSlice'
 import { RootState } from '../store'
 import { useMemo } from 'react'
 
@@ -15,30 +15,36 @@ import { useLoadingContext } from '@/context/isLoading'
 
 const MessageStream = () => {
     //REDUX 
+    const dispatch = useDispatch()
+    const [pitch_count, setPitchCount] = useState(0);
     const pitchStream = useSelector((state: RootState) => state.stream.firstPitch)
+    const mesgStream = useSelector((state: RootState) => state.stream.messages)
 
     const { isLoadingValue, setLoading } = useLoadingContext()
-    const [pitch_count, pitchCoutnState] = useState(0)
 
     let parsedPtich = useMemo(() => {
         let convos = []
-        pitchCoutnState(0)
         Array.from(Object.keys(pitchStream)).forEach(key => {
             convos.push(pitchStream[key])
-            pitchCoutnState(pitch_count+1)
         });
-
-
-        // console.log(convos)
-        return convos;
-
+        return convos
     }, [pitchStream])
+
+
+    let parsedMessages = useMemo(() => {
+        let convos = []
+        Array.from(Object.keys(mesgStream)).forEach(id=>{
+            convos.push(mesgStream[id])
+        })
+        return convos
+    }, [mesgStream])
+
+
     
-    let classToAdd;
-    let sender;
 
     const checkClass = (mesg: any) => {
-        sender = mesg.sender;
+        let sender = mesg.sender;
+        let classToAdd;
         if (sender == 'modelInFavour') {
             classToAdd = "dc-msg-technical"
         }
@@ -48,21 +54,34 @@ const MessageStream = () => {
         return classToAdd;
     }
 
+    useEffect(() => {
+        console.log('MESSAGE STREAM UPDATED', mesgStream)
+    }, [mesgStream])
+
     //====================RETURNING ELEMENT ================
     return (
         <div className="dc-message-stream">
-            {(pitch_count == 0 && !isLoadingValue) ? <MesgPlaceholderStyle /> : null}
-
-            {parsedPtich.map((mesg) => {
+            {(parsedPtich.length == 0 && !isLoadingValue && parsedMessages.length ==0) ? <MesgPlaceholderStyle /> : null}
+            
+            {parsedMessages.length==0 && parsedPtich.map((mesg) => {
                 return (
                     <div key={mesg.id} className={checkClass(mesg)} >
                         {mesg.text}
                     </div>
                 )
-
             })}
+
+            {parsedMessages.map((mesg,index) => {
+                return (
+                    <div key={index} className={checkClass(mesg)} >
+                        {mesg.text}
+                    </div>
+                )
+            })}
+
+
             <div>
-                {(pitch_count == 2) ? <FirstGoerBar /> : null}
+                {(parsedPtich.length == 2 && parsedMessages.length == 0) ? <FirstGoerBar /> : null}
             </div>
             {(isLoadingValue) ? <LoadingBar /> : null}
 
