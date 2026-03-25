@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 //REDUX IMPORTS
 import { UseSelector, UseDispatch, useSelector } from 'react-redux'
-import { pushMesg, setTopic, clear } from '../../reduxFeatures/streamSlice'
+import { pushMesg, setTopic, clear, popindex } from '../../reduxFeatures/streamSlice'
 import { RootState } from '../store'
 import { useMemo } from 'react'
 

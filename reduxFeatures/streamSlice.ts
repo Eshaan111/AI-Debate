@@ -34,6 +34,10 @@ export const streamSlice = createSlice({
       state.messages.push(action.payload)
     },
 
+    popindex: (state, action: PayloadAction<number>)=>{
+      state.messages.splice(action.payload,1)
+    },
+
     setTopic: (state, action: PayloadAction<string>) => {
       state.topic = action.payload;
     },
@@ -46,6 +50,6 @@ export const streamSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { pushMesg, setTopic, clear } = streamSlice.actions
+export const { pushMesg, setTopic, clear, popindex } = streamSlice.actions
 
 export default streamSlice.reducer
