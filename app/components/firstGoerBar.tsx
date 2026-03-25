@@ -17,11 +17,9 @@ const FirstGoerBar = () => {
     const pitchStream = useSelector((state: RootState) => state.stream.firstPitch)
 
 
-    useEffect(() => {
-        console.log('MESSAGE STREAM UPDATED', mesgStream)
-    }, [mesgStream])
 
-    const handleFirstChoice = (firstGoer_InFavour: boolean) => {
+
+    const handleFirstChoice = async (firstGoer_InFavour: boolean) => {
 
         let fav_pitch = pitchStream.favPitch
         let against_pitch = pitchStream.againstPitch
@@ -29,6 +27,18 @@ const FirstGoerBar = () => {
 
         let mesgObj = { sender: pitch_to_add.sender, model: pitch_to_add.model, text: pitch_to_add.text }
         dispatch(addMesg(mesgObj))
+        
+        
+        
+        const res = await fetch(`./api/argument`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(mesgStream)
+        })
+        console.log('DDDDDDDDDDDDDDDDDDDDD',JSON.stringify(mesgStream))
+        console.log('DDDDDDDDDDDDDDDDDDDDDSSDWAD',mesgStream)
     }
 
 

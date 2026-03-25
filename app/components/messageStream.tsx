@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 //REDUX IMPORTS
 import { UseSelector, UseDispatch, useSelector, useDispatch } from 'react-redux'
-import {setTopic, pushPitch, addMesg, clearPitch, clearMessage } from '../../reduxFeatures/streamSlice'
+import { setTopic, pushPitch, addMesg, clearPitch, clearMessage } from '../../reduxFeatures/streamSlice'
 import { RootState } from '../store'
 import { useMemo } from 'react'
 
@@ -33,14 +33,30 @@ const MessageStream = () => {
 
     let parsedMessages = useMemo(() => {
         let convos = []
-        Array.from(Object.keys(mesgStream)).forEach(id=>{
+        Array.from(Object.keys(mesgStream)).forEach(id => {
             convos.push(mesgStream[id])
         })
         return convos
     }, [mesgStream])
 
-
+    const postreq = async () => {
+        const res = await fetch(`./api/argument`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(mesgStream)
+        })
+        console.log('DDDDDDDDDDDDDDDDDDDDD', JSON.stringify(mesgStream))
+        console.log('DDDDDDDDDDDDDDDDDDDDDSSDWAD', mesgStream)
+    }
     
+    useEffect(() => {
+        postreq()
+    }, [mesgStream])
+
+
+
 
     const checkClass = (mesg: any) => {
         let sender = mesg.sender;
@@ -61,9 +77,9 @@ const MessageStream = () => {
     //====================RETURNING ELEMENT ================
     return (
         <div className="dc-message-stream">
-            {(parsedPtich.length == 0 && !isLoadingValue && parsedMessages.length ==0) ? <MesgPlaceholderStyle /> : null}
-            
-            {parsedMessages.length==0 && parsedPtich.map((mesg) => {
+            {(parsedPtich.length == 0 && !isLoadingValue && parsedMessages.length == 0) ? <MesgPlaceholderStyle /> : null}
+
+            {parsedMessages.length == 0 && parsedPtich.map((mesg) => {
                 return (
                     <div key={mesg.id} className={checkClass(mesg)} >
                         {mesg.text}
@@ -71,7 +87,7 @@ const MessageStream = () => {
                 )
             })}
 
-            {parsedMessages.map((mesg,index) => {
+            {parsedMessages.map((mesg, index) => {
                 return (
                     <div key={index} className={checkClass(mesg)} >
                         {mesg.text}
