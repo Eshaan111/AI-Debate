@@ -2,12 +2,14 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface MessageStreamState {
-  messages: object[],
+  firstPitch : object,
+  messages: object,
   topic: string
 
 }
 const initialState: MessageStreamState = {
-  messages: [],
+  firstPitch : {},
+  messages: {},
   topic: ''
 }
 
@@ -30,26 +32,33 @@ export const streamSlice = createSlice({
   name: 'MessageStream',
   initialState,
   reducers: {
-    pushMesg: (state, action: PayloadAction<object>) => {
-      state.messages.push(action.payload)
+    pushPitch: (state, action: PayloadAction<object>)=>{
+      let Pitchobject = action.payload
+      Array.from(Object.keys(Pitchobject)).forEach(key => {
+          state.firstPitch[key] = Pitchobject[key] 
+      });
     },
+    // pushMesg: (state, action: PayloadAction<object>) => {
+    //   state.messages.push(action.payload)
+    // },
 
-    popindex: (state, action: PayloadAction<number>)=>{
-      state.messages.splice(action.payload,1)
-    },
+    // popindex: (state, action: PayloadAction<number>)=>{
+    //   state.messages.splice(action.payload,1)
+    // },
 
     setTopic: (state, action: PayloadAction<string>) => {
       state.topic = action.payload;
     },
 
     clear: (state) => {
-      state.messages = []
+      state.messages = {}
     }
 
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { pushMesg, setTopic, clear, popindex } = streamSlice.actions
+// export const { pushMesg, setTopic, clear, popindex, pushPitch } = streamSlice.actions
+export const {setTopic, clear, pushPitch } = streamSlice.actions
 
 export default streamSlice.reducer

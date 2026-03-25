@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { pushMesg, setTopic, clear } from '../../reduxFeatures/streamSlice'
+import {setTopic, clear, pushPitch } from '../../reduxFeatures/streamSlice'
 import { RootState } from '../store'
 import { useSearchParams } from 'next/navigation';
 import { useLoadingContext } from '@/context/isLoading'
@@ -17,7 +17,10 @@ const ChatInput = () => {
 
     //==========LOADING CONTEXT===============
     const { isLoadingValue, setLoading } = useLoadingContext()
-    console.log('LOAD RENDER STATUS : ', isLoadingValue)
+    useEffect(()=>{
+        console.log('LOAD RENDER STATUS : ', isLoadingValue)
+    },[isLoadingValue])
+    
 
     // ============= CHANGING MODEL PREFERENCE ==================
 
@@ -34,24 +37,38 @@ const ChatInput = () => {
 
     //=======================REDUX EFFECTS + DATA EXTRACTION =================================
 
-    const mesgStream = useSelector((state: RootState) => state.stream.messages)
+    const pitchObject = useSelector((state: RootState) => state.stream.firstPitch)
     const topic_redux = useSelector((state: RootState) => state.stream.topic)
     const dispatch = useDispatch()
 
-    const handleStreamAddition = async (obj: any) => {
+    // const handleStreamAddition = async (obj: any) => {
+    //     console.log(obj)
+    //     let key = mesgStream.length
+    //     let fav = { id: `${key}FAV`, sender: 'modelInFavour', text: obj['mesg-fav'] }
+    //     let against = { id: `${key}AGNST`, sender: 'modelAgainst', text: obj['mesg-against'] }
+    //     let fav_aga_set_obj = { favReply: fav, againstReply: against }
+    //     console.log(fav_aga_set_obj)
+    //     dispatch(pushMesg(fav_aga_set_obj))
+
+    // }
+
+    const handlePitchAddition = async (obj: any) => {
         console.log(obj)
-        let key = mesgStream.length
-        let fav = { id: `${key}FAV`, sender: 'modelInFavour', text: obj['mesg-fav'] }
-        let against = { id: `${key}AGNST`, sender: 'modelAgainst', text: obj['mesg-against'] }
-        let fav_aga_set_obj = { favReply: fav, againstReply: against }
-        console.log(fav_aga_set_obj)
-        dispatch(pushMesg(fav_aga_set_obj))
+        let fav = { id: `PITCH-FAV`, sender: `modelInFavour`, text: obj['mesg-fav'] }
+        let against = { id: `PITCH-AGNST`, sender: `modelAgainst`, text: obj['mesg-against'] }
+        let fav_aga_set_obj = { favPitch: fav, againstPitch: against }
+        dispatch(pushPitch(fav_aga_set_obj))
 
     }
 
-    useEffect(() => {
-        console.log("Updated Stream in Redux:", mesgStream);
-    }, [mesgStream])
+    useEffect(()=>{
+        console.log('UPDATED PITCH OBJECT IN REDUX',pitchObject)
+    },[pitchObject])
+
+
+    // useEffect(() => {
+    //     console.log("Updated Stream in Redux:", mesgStream);
+    // }, [mesgStream])
 
     useEffect(() => {
         console.log("Updated topic in Redux:", topic_redux);
@@ -89,7 +106,7 @@ const ChatInput = () => {
         const ans = await res.json()
         setLoading(false)
         // console.log('LOADING VALUE : ', isLoadingValue)
-        handleStreamAddition(ans)
+        handlePitchAddition(ans)
 
 
     }

@@ -8,5 +8,6 @@ export function GET(req){
     const url = new URL(req.url)
     const searchParams = url.searchParams
     const firstGoer = searchParams.get('firstGoer')
+    // const oara
 
 }

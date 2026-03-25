@@ -15,8 +15,8 @@ const FirstGoerBar = () => {
     const handleArgument = (firstGoerModel) => {
         const searchParams = new URLSearchParams({
             'firstGoer': firstGoerModel,
-            'topic': topic_redux,
-            'mesgStreamArray': 
+            'topic': topic_redux
+            // 'mesgStreamArray': 
         })
 
 

@@ -14,27 +14,26 @@ import { useLoadingContext } from '@/context/isLoading'
 
 
 const MessageStream = () => {
-    const {isLoadingValue,setLoading} = useLoadingContext()
-    const mesgStream = useSelector((state: RootState) => state.stream.messages) 
-    const [mesg_count, mesgCoutnState] = useState(0)
+    //REDUX 
+    const pitchStream = useSelector((state: RootState) => state.stream.firstPitch)
 
-    const parsedStream = useMemo(() => {
+    const { isLoadingValue, setLoading } = useLoadingContext()
+    const [pitch_count, pitchCoutnState] = useState(0)
+
+    let parsedPtich = useMemo(() => {
         let convos = []
-        mesgCoutnState(0)
-        mesgStream.forEach(set_convo => {
-            if (Object.keys(set_convo).length > 1) {
-                convos.push(set_convo['favReply'])
-                convos.push(set_convo['againstReply'])
-                mesgCoutnState(mesg_count + 2)
-            }
-
+        pitchCoutnState(0)
+        Array.from(Object.keys(pitchStream)).forEach(key => {
+            convos.push(pitchStream[key])
+            pitchCoutnState(pitch_count+1)
         });
-        console.log(convos)
-        console.log('mesg count = ', mesg_count)
+
+
+        // console.log(convos)
         return convos;
 
-    }, [mesgStream])
-
+    }, [pitchStream])
+    
     let classToAdd;
     let sender;
 
@@ -52,9 +51,9 @@ const MessageStream = () => {
     //====================RETURNING ELEMENT ================
     return (
         <div className="dc-message-stream">
-            {(mesg_count == 0 && !isLoadingValue)?<MesgPlaceholderStyle/>:null}
-            
-            {parsedStream.map((mesg) => {
+            {(pitch_count == 0 && !isLoadingValue) ? <MesgPlaceholderStyle /> : null}
+
+            {parsedPtich.map((mesg) => {
                 return (
                     <div key={mesg.id} className={checkClass(mesg)} >
                         {mesg.text}
@@ -63,11 +62,11 @@ const MessageStream = () => {
 
             })}
             <div>
-                {(mesg_count==2)?<FirstGoerBar/>:null}
+                {(pitch_count == 2) ? <FirstGoerBar /> : null}
             </div>
-            {(isLoadingValue)?<LoadingBar/>:null}
+            {(isLoadingValue) ? <LoadingBar /> : null}
 
-            
+
         </div>
     )
 }
