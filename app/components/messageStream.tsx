@@ -7,6 +7,7 @@ import { setTopic, pushPitch, addMesg, clearPitch, clearMessage } from '../../re
 import { RootState } from '../store'
 import { useMemo } from 'react'
 
+import {axiosAPI} from '@/lib/axios.js'
 import FirstGoerBar from './firstGoerBar'
 import MesgPlaceholderStyle from './placeholderStream'
 import LoadingBar from './loadingBar'
@@ -19,7 +20,9 @@ const MessageStream = () => {
     const [pitch_count, setPitchCount] = useState(0);
     const pitchStream = useSelector((state: RootState) => state.stream.firstPitch)
     const mesgStream = useSelector((state: RootState) => state.stream.messages)
-    const topic = useSelector((state:RootState)=> state.stream.topic)
+    const topic = useSelector((state: RootState) => state.stream.topic)
+    const mesgCount = (Object.keys(mesgStream)).length
+    
 
     const { isLoadingValue, setLoading } = useLoadingContext()
 
@@ -41,26 +44,27 @@ const MessageStream = () => {
     }, [mesgStream])
 
     const postreqReply = async () => {
-        if(Object.keys(mesgStream).length == 0){
+        if (Object.keys(mesgStream).length == 0) {
             return null
         }
         let bodyObj = {
-            "topic" : topic   ,
-            "mesgStream" : mesgStream
+            "topic": topic,
+            "mesgStream": mesgStream
         }
         console.log('SENDING REPLY REQUEST')
-        const res = await fetch(`./api/argument`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(bodyObj)
-        })
-        const replyObj = await res.json()
-        console.log('RESPONSE : ',replyObj.mesgObject)
+        // const res = await axiosAPI.post(`./api/argument`, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(bodyObj)
+        // })
+        const res = await axiosAPI.post('./api/argument',JSON.stringify(bodyObj))
+        const replyObj = res.data
+        console.log('RESPONSE : ', replyObj.mesgObject)
         dispatch(addMesg(replyObj.mesgObject))
         return replyObj
-        
+
         // console.log('DDDDDDDDDDDDDDDDDDDDD', JSON.stringify(mesgStream))
         // console.log('DDDDDDDDDDDDDDDDDDDDDSSDWAD', mesgStream)
     }

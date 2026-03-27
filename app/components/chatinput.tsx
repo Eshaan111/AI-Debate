@@ -5,7 +5,7 @@ import {setTopic, pushPitch, addMesg, clearPitch, clearMessage } from '@/reduxFe
 import { RootState } from '../store'
 import { useSearchParams } from 'next/navigation';
 import { useLoadingContext } from '@/context/isLoading'
-
+import {axiosAPI} from '@/lib/axios'
 const ChatInput = () => {
 
 
@@ -92,8 +92,8 @@ const ChatInput = () => {
         setLoading(true)
         dispatch(setTopic(val))
         // console.log('LOADING VALUE : ', isLoadingValue)
-        const res = await fetch(`/api/chat?${params}`)
-        const ans = await res.json()
+        const res = await axiosAPI.get(`/api/chat?${params}`)
+        const ans = res.data
         setLoading(false)
         // console.log('LOADING VALUE : ', isLoadingValue)
         handlePitchAddition(ans)
