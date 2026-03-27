@@ -42,7 +42,7 @@ const ChatInput = () => {
     const dispatch = useDispatch()
 
     const handlePitchAddition = async (obj: any) => {
-        console.log(obj)
+        // console.log(obj)
         let fav = { id: `PITCH-FAV`, sender: `modelInFavour`, model : modelInFavour, text: obj['mesg-fav'] }
         let against = { id: `PITCH-AGNST`, sender: `modelAgainst`, model : modelAgainst, text: obj['mesg-against'] }
         let fav_aga_set_obj = { favPitch: fav, againstPitch: against }

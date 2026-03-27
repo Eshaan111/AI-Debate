@@ -40,7 +40,7 @@ const MessageStream = () => {
         return convos
     }, [mesgStream])
 
-    const postreq = async () => {
+    const postreqReply = async () => {
         if(Object.keys(mesgStream).length == 0){
             return null
         }
@@ -48,6 +48,7 @@ const MessageStream = () => {
             "topic" : topic   ,
             "mesgStream" : mesgStream
         }
+        console.log('SENDING REPLY REQUEST')
         const res = await fetch(`./api/argument`, {
             method: 'POST',
             headers: {
@@ -55,12 +56,18 @@ const MessageStream = () => {
             },
             body: JSON.stringify(bodyObj)
         })
+        const replyObj = await res.json()
+        console.log('RESPONSE : ',replyObj.mesgObject)
+        dispatch(addMesg(replyObj.mesgObject))
+        return replyObj
+        
         // console.log('DDDDDDDDDDDDDDDDDDDDD', JSON.stringify(mesgStream))
         // console.log('DDDDDDDDDDDDDDDDDDDDDSSDWAD', mesgStream)
     }
 
     useEffect(() => {
-        postreq()
+        // let replyObj = postreqReply()
+        postreqReply()
     }, [mesgStream])
 
 
