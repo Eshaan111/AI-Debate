@@ -18,8 +18,14 @@ const threadMaker = (mesgObject_Obj, topic) => {
     const ender = `NOW GET YOUR REPLY READY TO YOUR OPPONENT, try to find loopholes , idiocrocy, in his statement but also be productive with your criticism, dont make any mention of this debate or request , JUST GIVE THE REPLY TO THE ARGUMENT, WORD LIMIT = ${wordLimit}`
     let thread = `${opener} \n`
 
+    let spliced_arr;
+    if (keys.length > 4) {
+        spliced_arr = keys.splice(keys.length - 4, keys.length)
+    } else {
+        spliced_arr = keys
+    }
 
-    keys.forEach(key => {
+    spliced_arr.forEach(key => {
         let mesgObject = mesgObject_Obj[key]
         // console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',mesgObject)
         let sender = mesgObject.sender

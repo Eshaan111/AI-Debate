@@ -77,7 +77,10 @@ const MessageStream = () => {
         // let replyObj = postreqReply()
         let mesgCount = Object.keys(mesgStream).length
         if (mesgCount < mesgLimit * 2) {
-            postreqReply()
+            setTimeout(() => {
+                postreqReply()
+            }, 2000);
+
         }
     }, [mesgStream])
 

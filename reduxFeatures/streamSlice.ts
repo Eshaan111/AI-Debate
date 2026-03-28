@@ -14,7 +14,7 @@ const initialState: appState = {
   firstPitch: {},
   messages: {},
   topic: '',
-  mesgLimit: 7,
+  mesgLimit: 3,
   reqOutgoing: false,
   resIncoming: false
 }
