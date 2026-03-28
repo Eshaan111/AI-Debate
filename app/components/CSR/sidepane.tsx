@@ -2,8 +2,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { UseSelector, UseDispatch, useSelector, useDispatch } from 'react-redux'
-import { setTopic, pushPitch, addMesg, clearPitch, clearMessage } from '../../reduxFeatures/streamSlice'
-import { RootState } from '../store'
+import { setTopic, pushPitch, addMesg, clearPitch, clearMessage, setMesgLimit } from '../../../reduxFeatures/streamSlice'
+import { RootState } from '../../store'
 
 const SidePane = () => {
 
@@ -11,10 +11,11 @@ const SidePane = () => {
     const mesgStream = useSelector((state: RootState) => state.stream.messages)
     const resIncoming = useSelector((state: RootState) => state.stream.resIncoming)
     const reqOutgoing = useSelector((state: RootState) => state.stream.reqOutgoing)
+    const mesgLimit = useSelector((state: RootState) => state.stream.mesgLimit)
     const mesgCount = (Object.keys(mesgStream)).length
 
 
-    const [mesg_count, setMesgCount] = useState(0)
+    const [mesg_count, setMesgCount] = useState(mesgLimit)
     const [swingDirection, setSwingDirection] = useState('center'); // 'incoming' | 'ongoing' | 'center'
 
     useEffect(() => {
@@ -35,11 +36,15 @@ const SidePane = () => {
 
     }, [resIncoming, reqOutgoing]);
 
+    useEffect(() => {
+        dispatch(setMesgLimit(mesg_count))
+    }, [mesg_count])
+
     return (
         <div className="dc-side-pane">
             {/* Upper Section: The Counter */}
             <div className="dc-counter-card">
-                <span className="dc-pane-label">TOTAL_LOGIC_UNITS</span>
+                <span className="dc-pane-label">ARG PER MODEL</span>
                 <h2 className="dc-apple-counter">{mesg_count}</h2>
                 <div className="dc-counter-controls">
                     <button className="dc-counter-btn" onClick={() => setMesgCount(prev => prev + 1)}>＋</button>

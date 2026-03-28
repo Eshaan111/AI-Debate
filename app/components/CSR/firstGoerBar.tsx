@@ -2,8 +2,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setTopic, pushPitch, addMesg, clearPitch, clearMessage } from '../../reduxFeatures/streamSlice'
-import { RootState } from '../store'
+import { setTopic, pushPitch, addMesg, clearPitch, clearMessage } from '../../../reduxFeatures/streamSlice'
+import { RootState } from '../../store'
 
 
 

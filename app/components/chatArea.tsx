@@ -1,22 +1,20 @@
 import React from 'react'
-import ChatInput from './chatinput'
-import MessageStream from './messageStream'
-import ModelButton from './model_button'
-import ModelPreferenceLabel from './label'
+import ChatInput from './CSR/chatinput'
+import MessageStream from './CSR/messageStream'
+import ModelButton from './CSR/model_button'
+import ModelPreferenceLabel from './CSR/label'
 import { LoadingProvider } from '@/context/isLoading'
-import SidePane from './sidepane'
+import SidePane from './CSR/sidepane'
 
 const ChatArea = () => {
 
     return (
         <LoadingProvider>
             <div className="dc-workspace">
-                <SidePane/>
+                <SidePane />
                 <section className="dc-chat-container">
 
                     <div className="dc-chat-header">
-                        {/* <span className="label">MODEL IN FAVOUR {modelInFavour}</span>
-            <span className="label">MODEL AGAINST {modelAgainst}</span> */}
                         <ModelPreferenceLabel inFavour={true} />
                         <ModelPreferenceLabel inFavour={false} />
                     </div>
@@ -41,7 +39,6 @@ const ChatArea = () => {
                     <ChatInput />
 
                 </section>
-                <SidePane/>
             </div>
         </LoadingProvider>
     )

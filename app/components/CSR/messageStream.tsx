@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 
 //REDUX IMPORTS
 import { UseSelector, UseDispatch, useSelector, useDispatch } from 'react-redux'
-import { setTopic, pushPitch, addMesg, clearPitch, clearMessage, setReqOutgoing, setResIncoming } from '../../reduxFeatures/streamSlice'
-import { RootState } from '../store'
+import { setTopic, pushPitch, addMesg, clearPitch, clearMessage, setReqOutgoing, setResIncoming } from '../../../reduxFeatures/streamSlice'
+import { RootState } from '../../store'
 import { useMemo } from 'react'
 import { axiosAPI } from '@/lib/axios.js'
 import FirstGoerBar from './firstGoerBar'
@@ -19,6 +19,7 @@ const MessageStream = () => {
     const [pitch_count, setPitchCount] = useState(0);
     const pitchStream = useSelector((state: RootState) => state.stream.firstPitch)
     const mesgStream = useSelector((state: RootState) => state.stream.messages)
+    const mesgLimit = useSelector((state: RootState) => state.stream.mesgLimit)
     const topic = useSelector((state: RootState) => state.stream.topic)
     const mesgCount = (Object.keys(mesgStream)).length
 
@@ -74,7 +75,10 @@ const MessageStream = () => {
 
     useEffect(() => {
         // let replyObj = postreqReply()
-        postreqReply()
+        let mesgCount = Object.keys(mesgStream).length
+        if (mesgCount < mesgLimit * 2) {
+            postreqReply()
+        }
     }, [mesgStream])
 
 

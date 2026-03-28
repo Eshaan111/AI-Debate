@@ -5,6 +5,7 @@ export interface appState {
   firstPitch: object,
   messages: object,
   topic: string,
+  mesgLimit: number;
   reqOutgoing: boolean,
   resIncoming: boolean
 
@@ -13,6 +14,7 @@ const initialState: appState = {
   firstPitch: {},
   messages: {},
   topic: '',
+  mesgLimit: 7,
   reqOutgoing: false,
   resIncoming: false
 }
@@ -45,6 +47,10 @@ export const streamSlice = createSlice({
       state.topic = action.payload;
     },
 
+    setMesgLimit: (state, action: PayloadAction<number>) => {
+      state.mesgLimit = action.payload;
+    },
+
     clearMessage: (state) => {
       state.messages = {}
     },
@@ -55,6 +61,6 @@ export const streamSlice = createSlice({
   },
 })
 
-export const { setTopic, pushPitch, addMesg, clearPitch, clearMessage, setReqOutgoing, setResIncoming } = streamSlice.actions
+export const { setTopic, pushPitch, addMesg, clearPitch, clearMessage, setReqOutgoing, setResIncoming, setMesgLimit } = streamSlice.actions
 
 export default streamSlice.reducer

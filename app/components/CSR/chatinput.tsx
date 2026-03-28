@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setTopic, pushPitch, addMesg, clearPitch, clearMessage, setReqOutgoing, setResIncoming } from '@/reduxFeatures/streamSlice'
-import { RootState } from '../store'
+import { RootState } from '../../store'
 import { useSearchParams } from 'next/navigation';
 import { useLoadingContext } from '@/context/isLoading'
 import { axiosAPI } from '@/lib/axios'
