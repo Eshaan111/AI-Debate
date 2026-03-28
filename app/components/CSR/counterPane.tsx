@@ -5,7 +5,7 @@ import { UseSelector, UseDispatch, useSelector, useDispatch } from 'react-redux'
 import { setTopic, pushPitch, addMesg, clearPitch, clearMessage, setMesgLimit } from '../../../reduxFeatures/streamSlice'
 import { RootState } from '../../store'
 
-const SidePane = () => {
+const CounterPane = () => {
 
     const dispatch = useDispatch()
     const mesgStream = useSelector((state: RootState) => state.stream.messages)
@@ -82,4 +82,4 @@ const SidePane = () => {
     )
 }
 
-export default SidePane
+export default CounterPane

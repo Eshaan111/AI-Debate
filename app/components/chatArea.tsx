@@ -4,14 +4,15 @@ import MessageStream from './CSR/messageStream'
 import ModelButton from './CSR/model_button'
 import ModelPreferenceLabel from './CSR/label'
 import { LoadingProvider } from '@/context/isLoading'
-import SidePane from './CSR/sidepane'
+import CounterPane from './CSR/counterPane'
+import AnalyserPane from './CSR/analyserPane'
 
 const ChatArea = () => {
 
     return (
         <LoadingProvider>
             <div className="dc-workspace">
-                <SidePane />
+                <CounterPane />
                 <section className="dc-chat-container">
 
                     <div className="dc-chat-header">
@@ -39,6 +40,7 @@ const ChatArea = () => {
                     <ChatInput />
 
                 </section>
+                <AnalyserPane />
             </div>
         </LoadingProvider>
     )

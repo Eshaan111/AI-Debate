@@ -847,3 +847,105 @@ body {
   background-color: var(--sage);
   color: var(--ink);
 }
+
+
+/* --- RIGHT PANE LAYOUT --- */
+.dc-right-pane {
+  width: 260px;
+  height: 600px;
+  /* MATCHES .dc-chat-container and Left Pane */
+  display: flex;
+  flex-direction: column;
+}
+
+.dc-judgement-card {
+  flex: 1;
+  background-color: var(--sandstone);
+  border: 1px solid var(--ink);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 4px 0px 0px var(--ink);
+  /* Reversed shadow for right side */
+}
+
+/* --- THE WINNER BOX --- */
+.dc-winner-box {
+  background-color: var(--ink);
+  padding: 15px;
+  margin: 15px 0;
+  border: 1px solid var(--sage);
+  text-align: center;
+}
+
+.dc-label-tiny {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  color: var(--sage);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.dc-apple-winner {
+  font-family: var(--font-main);
+  font-size: 1.8rem;
+  font-weight: 200;
+  /* Apple Thin Aesthetic */
+  color: var(--paper);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+/* --- ANALYSIS LIST --- */
+.dc-analysis-section {
+  flex: 1;
+  margin-top: 10px;
+  border-top: 1px dashed var(--grid-dot);
+  padding-top: 15px;
+}
+
+.dc-point-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.dc-point-list li {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.4;
+  margin-bottom: 15px;
+  color: var(--ink);
+}
+
+.dc-tag {
+  display: inline-block;
+  font-size: 0.55rem;
+  font-weight: 800;
+  padding: 2px 5px;
+  background: var(--sage);
+  color: var(--paper);
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+
+.dc-tag.warning {
+  background: #C05E5E;
+  /* A muted "Chalk" red for insults */
+}
+
+/* --- FOOTER METRICS --- */
+.dc-matrix-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--ink);
+  padding-top: 10px;
+}
+
+/* Reuse the meta-item class from the left pane for consistency */
+.dc-meta-item {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  margin-bottom: 4px;
+}
