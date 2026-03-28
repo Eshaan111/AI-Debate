@@ -1,11 +1,12 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {setTopic, pushPitch, addMesg, clearPitch, clearMessage } from '@/reduxFeatures/streamSlice'
+import { setTopic, pushPitch, addMesg, clearPitch, clearMessage, setReqOutgoing, setResIncoming } from '@/reduxFeatures/streamSlice'
 import { RootState } from '../store'
 import { useSearchParams } from 'next/navigation';
 import { useLoadingContext } from '@/context/isLoading'
-import {axiosAPI} from '@/lib/axios'
+import { axiosAPI } from '@/lib/axios'
+
 const ChatInput = () => {
 
 
@@ -17,10 +18,10 @@ const ChatInput = () => {
 
     //==========LOADING CONTEXT===============
     const { isLoadingValue, setLoading } = useLoadingContext()
-    useEffect(()=>{
+    useEffect(() => {
         console.log('LOAD RENDER STATUS : ', isLoadingValue)
-    },[isLoadingValue])
-    
+    }, [isLoadingValue])
+
 
     // ============= CHANGING MODEL PREFERENCE ==================
 
@@ -43,16 +44,16 @@ const ChatInput = () => {
 
     const handlePitchAddition = async (obj: any) => {
         // console.log(obj)
-        let fav = { id: `PITCH-FAV`, sender: `modelInFavour`, model : modelInFavour, text: obj['mesg-fav'] }
-        let against = { id: `PITCH-AGNST`, sender: `modelAgainst`, model : modelAgainst, text: obj['mesg-against'] }
+        let fav = { id: `PITCH-FAV`, sender: `modelInFavour`, model: modelInFavour, text: obj['mesg-fav'] }
+        let against = { id: `PITCH-AGNST`, sender: `modelAgainst`, model: modelAgainst, text: obj['mesg-against'] }
         let fav_aga_set_obj = { favPitch: fav, againstPitch: against }
         dispatch(pushPitch(fav_aga_set_obj))
 
     }
 
-    useEffect(()=>{
-        console.log('UPDATED PITCH OBJECT IN REDUX',pitchObject)
-    },[pitchObject])
+    useEffect(() => {
+        console.log('UPDATED PITCH OBJECT IN REDUX', pitchObject)
+    }, [pitchObject])
 
 
     // useEffect(() => {
@@ -92,9 +93,13 @@ const ChatInput = () => {
         setLoading(true)
         dispatch(setTopic(val))
         // console.log('LOADING VALUE : ', isLoadingValue)
+        dispatch(setReqOutgoing(true))
+        dispatch(setResIncoming(false))
         const res = await axiosAPI.get(`/api/chat?${params}`)
         const ans = res.data
         setLoading(false)
+        dispatch(setReqOutgoing(false))
+        dispatch(setResIncoming(true))
         // console.log('LOADING VALUE : ', isLoadingValue)
         handlePitchAddition(ans)
 

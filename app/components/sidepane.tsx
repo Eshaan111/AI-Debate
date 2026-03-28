@@ -9,18 +9,32 @@ const SidePane = () => {
 
     const dispatch = useDispatch()
     const mesgStream = useSelector((state: RootState) => state.stream.messages)
+    const resIncoming = useSelector((state: RootState) => state.stream.resIncoming)
+    const reqOutgoing = useSelector((state: RootState) => state.stream.reqOutgoing)
     const mesgCount = (Object.keys(mesgStream)).length
 
-    const [mesg_count, setMesgCount] = useState(mesgCount)
+
+    const [mesg_count, setMesgCount] = useState(0)
     const [swingDirection, setSwingDirection] = useState('center'); // 'incoming' | 'ongoing' | 'center'
 
     useEffect(() => {
-        if (mesg_count > 0) {
-            // Toggle side based on who sent the last message
-            const lastSender = parsedStream[parsedStream.length - 1]?.sender;
-            setSwingDirection(lastSender === 'modelInFavour' ? 'ongoing' : 'incoming');
+        console.log('SWING_TRIGGER => ', { reqOutgoing, resIncoming });
+        // Toggle side based on who sent the last message
+        if (resIncoming) {
+            setSwingDirection('incoming')
+            return
         }
-    }, [mesg_count]);
+        else if (reqOutgoing) {
+            setSwingDirection('ongoing')
+            return
+        }
+        else {
+            setSwingDirection('center')
+            return
+        }
+
+    }, [resIncoming, reqOutgoing]);
+
     return (
         <div className="dc-side-pane">
             {/* Upper Section: The Counter */}
@@ -44,6 +58,7 @@ const SidePane = () => {
 
                     {/* The Actual Pendulum */}
                     <div className={`dc-pendulum-arm ${swingDirection}`}>
+                        {/* <div className={`dc-pendulum-arm incoming`}> */}
                         <div className="dc-pendulum-weight"></div>
                     </div>
 

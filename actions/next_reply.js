@@ -17,7 +17,7 @@ const threadMaker = (mesgObject_Obj, topic) => {
     const opener = `${setup} believe you are a passionate debatoar,  ${myStance} the topic : ${topic} currently in a debate, with the current conversation going as : `
     const ender = `NOW GET YOUR REPLY READY TO YOUR OPPONENT, try to find loopholes , idiocrocy, in his statement but also be productive with your criticism, dont make any mention of this debate or request , JUST GIVE THE REPLY TO THE ARGUMENT, WORD LIMIT = ${wordLimit}`
     let thread = `${opener} \n`
-    
+
 
     keys.forEach(key => {
         let mesgObject = mesgObject_Obj[key]
@@ -42,17 +42,17 @@ async function requestReply(messageObject, thread) {
     let lastMesgObject = messageObject[keys[keys.length - 1]]
     let lastSenderModel = lastMesgObject.model
     let lastSenderStance = lastMesgObject.sender
-    let text,model,sender = '';
+    let text, model, sender = '';
     if (lastSenderModel.toLowerCase() == 'gemini') {
         text = await askGemini(thread)
-        model ='GEMINI'
+        model = 'GEMINI'
     } else {
         text = await askGroq(thread)
-        model ='GROQ'
+        model = 'GROQ'
     }
-    console.log('LAST MESG OBJE',lastMesgObject)
-    sender = (lastSenderStance == 'modelInFavour')?'modelAgainst':'modelInFavour'
-    return{sender,model,text}
+    // console.log('LAST MESG OBJE',lastMesgObject)
+    sender = (lastSenderStance == 'modelInFavour') ? 'modelAgainst' : 'modelInFavour'
+    return { sender, model, text }
 
 
 }
@@ -63,8 +63,8 @@ export async function nextReply(reqbody) {
     let mesgObject_Obj = reqbody.mesgStream
     let topic = reqbody.topic
     let thread = threadMaker(mesgObject_Obj, topic)
-    let {sender,model,text} = await requestReply(mesgObject_Obj, thread)
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',{sender,model,text})
-    return {sender,model,text}
+    let { sender, model, text } = await requestReply(mesgObject_Obj, thread)
+    // console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',{sender,model,text})
+    return { sender, model, text }
 }
 

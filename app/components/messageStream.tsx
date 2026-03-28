@@ -3,11 +3,10 @@ import React, { useEffect, useState } from 'react'
 
 //REDUX IMPORTS
 import { UseSelector, UseDispatch, useSelector, useDispatch } from 'react-redux'
-import { setTopic, pushPitch, addMesg, clearPitch, clearMessage } from '../../reduxFeatures/streamSlice'
+import { setTopic, pushPitch, addMesg, clearPitch, clearMessage, setReqOutgoing, setResIncoming } from '../../reduxFeatures/streamSlice'
 import { RootState } from '../store'
 import { useMemo } from 'react'
-
-import {axiosAPI} from '@/lib/axios.js'
+import { axiosAPI } from '@/lib/axios.js'
 import FirstGoerBar from './firstGoerBar'
 import MesgPlaceholderStyle from './placeholderStream'
 import LoadingBar from './loadingBar'
@@ -22,7 +21,7 @@ const MessageStream = () => {
     const mesgStream = useSelector((state: RootState) => state.stream.messages)
     const topic = useSelector((state: RootState) => state.stream.topic)
     const mesgCount = (Object.keys(mesgStream)).length
-    
+
 
     const { isLoadingValue, setLoading } = useLoadingContext()
 
@@ -59,10 +58,14 @@ const MessageStream = () => {
         //     },
         //     body: JSON.stringify(bodyObj)
         // })
-        const res = await axiosAPI.post('./api/argument',JSON.stringify(bodyObj))
+        dispatch(setReqOutgoing(true))
+        dispatch(setResIncoming(false))
+        const res = await axiosAPI.post('./api/argument', JSON.stringify(bodyObj))
         const replyObj = res.data
-        console.log('RESPONSE : ', replyObj.mesgObject)
+        dispatch(setReqOutgoing(false))
+        dispatch(setResIncoming(true))
         dispatch(addMesg(replyObj.mesgObject))
+        console.log('RESPONSE : ', replyObj.mesgObject)
         return replyObj
 
         // console.log('DDDDDDDDDDDDDDDDDDDDD', JSON.stringify(mesgStream))

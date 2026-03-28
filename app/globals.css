@@ -1,11 +1,16 @@
 :root {
   /* The "Digital Chalk" Palette */
-  --paper: #F4EFE3;      /* Base Background */
-  --ink: #2D2D2D;        /* High Contrast Charcoal */
-  --sage: #8F9779;       /* Primary Accent */
-  --sandstone: #E9DFC7;  /* Secondary Container */
-  --grid-dot: #D1CDC2;   /* Subdued Grid Color */
-  
+  --paper: #F4EFE3;
+  /* Base Background */
+  --ink: #2D2D2D;
+  /* High Contrast Charcoal */
+  --sage: #8F9779;
+  /* Primary Accent */
+  --sandstone: #E9DFC7;
+  /* Secondary Container */
+  --grid-dot: #D1CDC2;
+  /* Subdued Grid Color */
+
   /* Typography */
   --font-main: 'Inter', 'Helvetica Neue', sans-serif;
   --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
@@ -73,17 +78,113 @@ body {
   gap: 30px;
   padding: 40px;
 }
+
 /* --- SIDE PANE --- */
 /* --- SIDE PANE (Height Matched) --- */
 .dc-side-pane {
   width: 220px;
-  height: 600px; /* MATCHES .dc-chat-container height */
+  height: 600px;
+  /* MATCHES .dc-chat-container height */
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.dc-counter-card, .dc-status-card {
+.dc-pendulum-enclosure {
+  flex: 1;
+  background-color: var(--ink);
+  margin: 15px 0;
+  position: relative;
+  border: 1px solid var(--sage);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Labels for the extremes */
+.dc-pendulum-label {
+  position: absolute;
+  top: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  color: var(--sage);
+  opacity: 0.6;
+}
+
+.dc-pendulum-label.left {
+  left: 10px;
+}
+
+.dc-pendulum-label.right {
+  right: 10px;
+}
+
+/* The Pivot Point */
+.dc-pendulum-enclosure::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 4px;
+  height: 4px;
+  background: var(--sage);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+/* The Arm */
+.dc-pendulum-arm {
+  width: 1px;
+  height: 120px;
+  background: var(--sage);
+  position: relative;
+  transform-origin: top center;
+  transition: transform 1.2s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  margin-top: 2px;
+}
+
+/* Directional States */
+.dc-pendulum-arm.incoming {
+  transform: rotate(35deg);
+}
+
+.dc-pendulum-arm.ongoing {
+  transform: rotate(-35deg);
+}
+
+.dc-pendulum-arm.center {
+  transform: rotate(0deg);
+}
+
+/* The Weight (The Bob) */
+.dc-pendulum-weight {
+  position: absolute;
+  bottom: 0;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+  background: var(--sandstone);
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(143, 151, 121, 0.4);
+}
+
+/* The Bottom Scale */
+.dc-pendulum-scale {
+  position: absolute;
+  bottom: 10px;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  color: var(--sage);
+  border-top: 1px dashed var(--sage);
+  padding-top: 4px;
+}
+
+.dc-counter-card,
+.dc-status-card {
   background-color: var(--sandstone);
   border: 1px solid var(--ink);
   padding: 20px;
@@ -91,14 +192,16 @@ body {
 }
 
 .dc-counter-card {
-  flex: 0 0 auto; /* Takes only as much space as needed */
+  flex: 0 0 auto;
+  /* Takes only as much space as needed */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .dc-status-card {
-  flex: 1; /* Fills the remaining height of the 600px pane */
+  flex: 1;
+  /* Fills the remaining height of the 600px pane */
   display: flex;
   flex-direction: column;
 }
@@ -107,7 +210,8 @@ body {
 .dc-apple-counter {
   font-family: var(--font-main);
   font-size: 5rem;
-  font-weight: 200; /* Ultra light Apple aesthetic */
+  font-weight: 200;
+  /* Ultra light Apple aesthetic */
   margin: 10px 0;
   color: var(--ink);
   line-height: 0.8;
@@ -141,12 +245,13 @@ body {
 
 .dc-counter-btn:active {
   transform: translateY(2px);
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Ensure Chat Container doesn't shrink */
 .dc-chat-container {
-  flex-shrink: 0; /* Prevents the pane from squishing the chat */
+  flex-shrink: 0;
+  /* Prevents the pane from squishing the chat */
 }
 
 
@@ -195,21 +300,30 @@ body {
 
 /* --- ANIMATIONS --- */
 @keyframes dc-wave {
-  0% { transform: translateX(-100%) translateY(-5px); }
-  50% { transform: translateX(-50%) translateY(5px); }
-  100% { transform: translateX(0%) translateY(-5px); }
+  0% {
+    transform: translateX(-100%) translateY(-5px);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(5px);
+  }
+
+  100% {
+    transform: translateX(0%) translateY(-5px);
+  }
 }
 
 /* The Chat Box (Semi-Full-Width) */
 .dc-chat-container {
-  width: 85%; /* Semi-full width */
+  width: 85%;
+  /* Semi-full width */
   max-width: 1200px;
   height: 600px;
-  
+
   /* The "Tracing Paper" Look */
   /* Using 95% opacity to keep it "dry" and legible */
-  background-color: rgba(244, 239, 227, 0.95); 
-  
+  background-color: rgba(244, 239, 227, 0.95);
+
   /* Structural definition instead of shadows */
   border: 1px solid var(--ink);
   display: flex;
@@ -238,16 +352,20 @@ body {
 /* The Message Area */
 .dc-chat-messages {
   position: relative;
-  flex: 1; /* This forces it to take all available space between header and input */
+  flex: 1;
+  /* This forces it to take all available space between header and input */
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Keep the trays pinned to the top */
-  padding-top: 70px; /* Space so messages don't start under the trays */
+  overflow: hidden;
+  /* Keep the trays pinned to the top */
+  padding-top: 70px;
+  /* Space so messages don't start under the trays */
 }
 
 .dc-message-stream {
 
-  position: relative; /* Anchor for the placeholder */
+  position: relative;
+  /* Anchor for the placeholder */
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1;
@@ -256,36 +374,41 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  
+
   /* The "Boxy" Shadow */
   /* Format: x-offset y-offset blur spread color */
-  box-shadow: 
-    4px 4px 0px 0px var(--sandstone), /* The inner "step" */
-    8px 8px 0px 0px rgba(45, 45, 45, 0.1); /* The outer "drop" */
-    
+  box-shadow:
+    4px 4px 0px 0px var(--sandstone),
+    /* The inner "step" */
+    8px 8px 0px 0px rgba(45, 45, 45, 0.1);
+  /* The outer "drop" */
+
   /* Structural Border */
   border: 1px solid var(--ink);
   background-color: var(--paper);
-  
+
   /* Keep it inside the container margins */
-  margin: 10px 20px 20px 20px; 
+  margin: 10px 20px 20px 20px;
 }
 
 /* 1. The Track (The physical slot the slider sits in) */
 .dc-message-stream::-webkit-scrollbar {
-  width: 12px; /* Wide enough to feel like a physical component */
+  width: 12px;
+  /* Wide enough to feel like a physical component */
 }
 
 /* 2. The Background of the track */
 .dc-message-stream::-webkit-scrollbar-track {
   background-color: var(--sandstone);
-  border-left: 1px solid var(--ink); /* Divider line from the content */
+  border-left: 1px solid var(--ink);
+  /* Divider line from the content */
 }
 
 /* 3. The Thumb (The moving 'knob') */
 .dc-message-stream::-webkit-scrollbar-thumb {
   background-color: var(--ink);
-  border: 2px solid var(--sandstone); /* Creates a 'inset' look */
+  border: 2px solid var(--sandstone);
+  /* Creates a 'inset' look */
   /* No border-radius = 0px for that sharp industrial finish */
 }
 
@@ -308,7 +431,8 @@ body {
   font-size: 0.8rem;
   padding: 12px;
   border: 1px solid var(--grid-dot);
-  background-color: rgba(233, 223, 199, 0.3); /* Very light sandstone tint */
+  background-color: rgba(233, 223, 199, 0.3);
+  /* Very light sandstone tint */
   position: relative;
   max-width: 80%;
   align-self: flex-start;
@@ -319,7 +443,8 @@ body {
   font-size: 0.8rem;
   padding: 12px;
   border: 1px solid var(--grid-dot);
-  background-color: rgba(233, 223, 199, 0.3); /* Very light sandstone tint */
+  background-color: rgba(233, 223, 199, 0.3);
+  /* Very light sandstone tint */
   position: relative;
   max-width: 80%;
   align-self: flex-end;
@@ -348,27 +473,37 @@ body {
   font-size: 0.5rem;
   padding: 1px 4px;
 }
+
 /* The Selector Base */
 /* The Selector Base - Adjusted for exactly 2 slots */
 .dc-selector-tray {
   position: absolute;
   top: 10px;
-  width: 160px; /* Slightly narrower for 2 clean 80px slots */
+  width: 160px;
+  /* Slightly narrower for 2 clean 80px slots */
   height: 50px;
   background-color: var(--sandstone);
   border: 1px solid var(--ink);
-  display: flex; /* Flex handles the 50/50 split */
-  overflow: hidden; /* No more scrolling needed for 2 items */
+  display: flex;
+  /* Flex handles the 50/50 split */
+  overflow: hidden;
+  /* No more scrolling needed for 2 items */
   z-index: 10;
   box-shadow: 2px 2px 0px 0px rgba(45, 45, 45, 0.1);
 }
 
-.dc-left-tray { left: 15px; }
-.dc-right-tray { right: 15px; }
+.dc-left-tray {
+  left: 15px;
+}
+
+.dc-right-tray {
+  right: 15px;
+}
 
 /* The "Slides" (Now exactly 50% width) */
 .dc-slide {
-  flex: 1; /* Each takes exactly half the container */
+  flex: 1;
+  /* Each takes exactly half the container */
   flex-direction: column;
   gap: 4px;
   display: flex;
@@ -376,7 +511,8 @@ body {
   justify-content: center;
   height: 100%;
   font-family: var(--font-mono);
-  font-size: 0.65rem; /* Slightly larger text for better legibility */
+  font-size: 0.65rem;
+  /* Slightly larger text for better legibility */
   text-transform: uppercase;
   color: var(--ink);
   background-color: var(--paper);
@@ -388,9 +524,9 @@ body {
   width: 20px;
   height: 20px;
   object-fit: contain;
-  
+
   /* This filter makes color icons look like "Ink" on the paper */
-  filter: grayscale(1) contrast(1.2); 
+  filter: grayscale(1) contrast(1.2);
   opacity: 0.8;
 }
 
@@ -401,7 +537,8 @@ body {
 
 /* Reverse the colors when hovering */
 .dc-slide:hover .dc-slide-img {
-  filter: invert(1) brightness(2); /* Makes the icon white on the sage background */
+  filter: invert(1) brightness(2);
+  /* Makes the icon white on the sage background */
   opacity: 1;
 }
 
@@ -418,7 +555,8 @@ body {
 /* Technical Labeling */
 .dc-tray-label {
   position: absolute;
-  top: -14px; /* Lifted slightly more */
+  top: -14px;
+  /* Lifted slightly more */
   left: 0;
   font-family: var(--font-mono);
   font-size: 0.55rem;
@@ -436,22 +574,25 @@ body {
   transform: translate(-50%, -50%);
   width: 85%;
   max-width: 600px;
-  
+
   /* Legibility Improvements */
-  background-color: rgba(244, 239, 227, 0.8); /* Faint paper-colored plate */
+  background-color: rgba(244, 239, 227, 0.8);
+  /* Faint paper-colored plate */
   color: var(--ink);
-  opacity: 0.7; /* Increased for better contrast */
+  opacity: 0.7;
+  /* Increased for better contrast */
   padding: 30px;
   border: 1px solid var(--grid-dot);
-  
+
   /* Typography */
   font-family: var(--font-mono);
   font-size: 0.75rem;
   line-height: 1.6;
-  text-align: left; /* Left-aligned feels more like a manual */
+  text-align: left;
+  /* Left-aligned feels more like a manual */
   text-transform: uppercase;
   letter-spacing: 0.02em;
-  
+
   /* Visual Polish */
   pointer-events: none;
   user-select: none;
@@ -483,29 +624,29 @@ body {
 .dc-widget-bar {
   background-color: var(--ink);
   /* The "Friction" texture: subtle vertical vents */
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.2) 2px,
-    rgba(0, 0, 0, 0.2) 3px
-  );
+  background-image: repeating-linear-gradient(90deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.2) 2px,
+      rgba(0, 0, 0, 0.2) 3px);
   padding: 8px 16px;
-  
+
   /* CENTERING LOGIC */
-  margin: 20px auto; /* 20px top/bottom, auto left/right centers it */
-  width: fit-content; /* Critical: keeps the bar from stretching */
-  min-width: 320px; 
-  
+  margin: 20px auto;
+  /* 20px top/bottom, auto left/right centers it */
+  width: fit-content;
+  /* Critical: keeps the bar from stretching */
+  min-width: 320px;
+
   display: flex;
   align-items: center;
   gap: 20px;
   border: 1px solid var(--ink);
   position: relative;
-  
+
   /* The "Stamped" Offset Shadow */
   box-shadow: 4px 4px 0px 0px var(--sandstone);
-  
+
   /* Ensure it sits above the grid texture */
   z-index: 5;
 }
@@ -523,8 +664,13 @@ body {
   opacity: 0.4;
 }
 
-.dc-widget-bar::before { left: 4px; }
-.dc-widget-bar::after { right: 4px; }
+.dc-widget-bar::before {
+  left: 4px;
+}
+
+.dc-widget-bar::after {
+  right: 4px;
+}
 
 /* The Label */
 .dc-widget-label {
@@ -579,11 +725,11 @@ body {
   padding: 8px 16px;
   background-color: var(--sandstone);
   border: 1px solid var(--ink);
-  
+
   /* CENTERING LOGIC */
-  margin: 20px auto; 
+  margin: 20px auto;
   width: fit-content;
-  
+
   /* Aesthetic: Stamped depth */
   box-shadow: 3px 3px 0px 0px var(--grid-dot);
   position: relative;
@@ -618,7 +764,7 @@ body {
   position: relative;
   overflow: hidden;
   /* Inset look */
-  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .dc-loading-bar::after {
@@ -629,25 +775,35 @@ body {
   width: 100%;
   height: 100%;
   /* Industrial 'Caution' Stripes */
-  background: repeating-linear-gradient(
-    45deg,
-    var(--sage),
-    var(--sage) 6px,
-    transparent 6px,
-    transparent 12px
-  );
+  background: repeating-linear-gradient(45deg,
+      var(--sage),
+      var(--sage) 6px,
+      transparent 6px,
+      transparent 12px);
   animation: dc-slide-progress 2s linear infinite;
 }
 
 /* Hard Snap Animation */
 @keyframes dc-blink {
-  0% { opacity: 1; filter: brightness(1.2); }
-  100% { opacity: 0.4; filter: brightness(0.8); }
+  0% {
+    opacity: 1;
+    filter: brightness(1.2);
+  }
+
+  100% {
+    opacity: 0.4;
+    filter: brightness(0.8);
+  }
 }
 
 @keyframes dc-slide-progress {
-  from { transform: translateX(0); }
-  to { transform: translateX(100%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
 }
 
 /* The Input Area */
@@ -682,7 +838,8 @@ body {
   font-size: 0.8rem;
   text-transform: uppercase;
   cursor: crosshair;
-  transition: none; /* No fluid animation */
+  transition: none;
+  /* No fluid animation */
   cursor: pointer;
 }
 
