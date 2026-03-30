@@ -12,6 +12,7 @@ import FirstGoerBar from './firstGoerBar'
 import MesgPlaceholderStyle from './placeholderStream'
 import LoadingBar from './loadingBar'
 import { useLoadingContext } from '@/context/isLoading'
+import FinishedBar from './finished'
 
 
 const MessageStream = () => {
@@ -134,6 +135,7 @@ const MessageStream = () => {
                 {(parsedPtich.length == 2 && parsedMessages.length == 0) ? <FirstGoerBar /> : null}
             </div>
             {(isLoadingValue) ? <LoadingBar /> : null}
+            {(Object.keys(mesgStream).length >= mesgLimit * 2) ? <FinishedBar /> : null}
 
 
         </div>
