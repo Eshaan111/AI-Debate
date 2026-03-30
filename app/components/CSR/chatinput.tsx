@@ -6,10 +6,11 @@ import { RootState } from '../../store'
 import { useSearchParams } from 'next/navigation';
 import { useLoadingContext } from '@/context/isLoading'
 import { axiosAPI } from '@/lib/axios'
+import WarningBar from './warningBar'
 
 const ChatInput = () => {
 
-
+    let [buttonPressed, setButtonPressed] = useState(false);
     const [text, setText] = useState('');
     const [modelInFavour, setModelInFavour] = useState('Un-Signed')
     const [modelAgainst, setModelAgainst] = useState('Un-Signed')
@@ -26,6 +27,7 @@ const ChatInput = () => {
     // ============= CHANGING MODEL PREFERENCE ==================
 
     useEffect(() => {
+        setButtonPressed(false)
         for (const [key, value] of curr_params.entries()) {
             if (key == 'modelInFavour' && value != `undefined`) { setModelInFavour(value) }
             else if (key == 'modelAgainst' && value != `undefined`) { setModelAgainst(value) }
@@ -73,7 +75,7 @@ const ChatInput = () => {
     }
 
     const handleTransmit = async () => {
-
+        setButtonPressed(true);
         if (!checkModelPreference()) {
             console.log("MODEL PREFERENCE NOT SELECTED")
             return
@@ -90,6 +92,7 @@ const ChatInput = () => {
             modelInFavour: modelInFavour,
             modelAgainst: modelAgainst
         })
+
         setLoading(true)
         dispatch(setTopic(val))
         // console.log('LOADING VALUE : ', isLoadingValue)
@@ -113,11 +116,14 @@ const ChatInput = () => {
     }
 
     return (
-
-        <div className="dc-chat-input-zone">
-            <input type="text" className="dc-chat-input" placeholder="INPUT ARGUMENT..." onChange={handleChange} onKeyDown={handleKeyDown} value={text} />
-            <button className="dc-send-btn" onClick={handleTransmit}>Transmit</button>
-        </div>
+        <>
+            {/* {checkModelPreference() ? null : <WarningBar />} */}
+            {(buttonPressed && !checkModelPreference()) ? <WarningBar /> : null}
+            <div className="dc-chat-input-zone">
+                <input type="text" className="dc-chat-input" placeholder="INPUT ARGUMENT..." onChange={handleChange} onKeyDown={handleKeyDown} value={text} />
+                <button className="dc-send-btn" onClick={handleTransmit}>Transmit</button>
+            </div>
+        </>
 
     )
 }

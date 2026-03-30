@@ -1102,3 +1102,79 @@ body {
     transform: translateY(0);
   }
 }
+
+
+.dc-status-warning {
+  display: flex;
+  background-color: #FFF9E6;
+  /* Aged manila folder yellow */
+  border: 1px solid #D4A017;
+  /* Muted Brass/Amber */
+  margin: 10px 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 4px 4px 0px 0px rgba(212, 160, 23, 0.1);
+  animation: dc-warning-pulse 2s infinite steps(2);
+}
+
+/* The Animated Side Stripe */
+.dc-warning-stripe {
+  width: 12px;
+  background: repeating-linear-gradient(0deg,
+      #D4A017,
+      #D4A017 10px,
+      #FFF9E6 10px,
+      #FFF9E6 20px);
+  border-right: 1px solid #D4A017;
+}
+
+.dc-warning-content {
+  padding: 15px;
+  flex: 1;
+}
+
+.dc-warning-header {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: #8B6B15;
+  /* Deep Amber */
+  letter-spacing: 0.05em;
+  margin-bottom: 5px;
+}
+
+.dc-warning-body {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  line-height: 1.4;
+  color: var(--ink);
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* Technical Error Code tag */
+.dc-warning-code {
+  background-color: #D4A017;
+  color: #FFF9E6;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  padding: 4px 8px;
+  height: fit-content;
+  align-self: flex-start;
+  font-weight: bold;
+}
+
+/* Hard-step pulse to mimic a flickering fluorescent bulb */
+@keyframes dc-warning-pulse {
+
+  0%,
+  100% {
+    border-color: #D4A017;
+  }
+
+  50% {
+    border-color: #F4EFE3;
+  }
+}
