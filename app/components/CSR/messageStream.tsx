@@ -7,6 +7,7 @@ import { setTopic, pushPitch, addMesg, clearPitch, clearMessage, setReqOutgoing,
 import { RootState } from '../../store'
 import { useMemo } from 'react'
 import { axiosAPI } from '@/lib/axios.js'
+
 import FirstGoerBar from './firstGoerBar'
 import MesgPlaceholderStyle from './placeholderStream'
 import LoadingBar from './loadingBar'
@@ -76,11 +77,15 @@ const MessageStream = () => {
     useEffect(() => {
         // let replyObj = postreqReply()
         let mesgCount = Object.keys(mesgStream).length
+        if (mesgCount > 0) { setLoading(true) }
         if (mesgCount < mesgLimit * 2) {
             setTimeout(() => {
                 postreqReply()
             }, 2000);
 
+        }
+        if (mesgCount == mesgLimit * 2) {
+            setLoading(false)
         }
     }, [mesgStream])
 
