@@ -1,15 +1,25 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../store'
 import { axiosAPI } from '@/lib/axios'
 const AnalyserPane = () => {
     const mesgStream = useSelector((state: RootState) => state.stream.messages)
+
     const winnerWrapper = () => {
-        axiosAPI.post('/analyse', {
-            mesgStream
+        axiosAPI.post('/api/analyse', {
+            mesgStream: mesgStream
+        }).then((res) => {
+            setMinnerModel(res.data.body.winner)
+            setBestpoint(res.data.body.best_point)
+            setInsult(res.data.body.insult_log)
         })
     }
+
+    const [winnerModel, setMinnerModel] = useState('.======.')
+    const [bestpoint, setBestpoint] = useState('-------')
+    const [bestInsult, setInsult] = useState('-------')
+
 
     return (
         <div className="dc-right-pane">
@@ -23,7 +33,7 @@ const AnalyserPane = () => {
                 {/* The Winner Header */}
                 <div className="dc-winner-box">
                     <span className="dc-label-tiny">DECLARED_VICTOR</span>
-                    <h2 className="dc-apple-winner">------</h2>
+                    <h2 className="dc-apple-winner">{winnerModel}</h2>
                 </div>
 
                 {/* The Points Analysis */}
@@ -32,11 +42,11 @@ const AnalyserPane = () => {
                     <ul className="dc-point-list">
                         <li>
                             <span className="dc-tag">BEST_POINT</span>
-                            "----------"
+                            {bestpoint}
                         </li>
                         <li>
                             <span className="dc-tag warning">INSULT_LOG</span>
-                            "Your logic has the structural integrity of wet tissue paper."
+                            {bestInsult}
                         </li>
                     </ul>
                 </div>
